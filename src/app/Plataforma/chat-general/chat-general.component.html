@@ -1,0 +1,62 @@
+<div #chatMessagesContainer class="chat-messages">
+  <div *ngFor="let msg of mensajesOrdenados()" class="message"
+    [ngClass]="{ 'own-message': msg.senderName === nombreUsuario }">
+
+    <!-- <span class="sender">{{ msg.senderName }}:</span> -->
+    <span class="sender" [style.color]="getUserColor(msg.senderName)">
+      {{ msg.senderName === nombreUsuario ? 'Yo' : msg.senderName }}:
+    </span>
+    <div *ngIf="mensajeEditandoId() === msg.id; else mostrarMensaje" class="mensaje-editando">
+      <!-- 1) Botones arriba -->
+      <div class="botones-editando">
+        <button class="btn-guardar" (click)="guardarEdicion()">✔</button>
+        <button class="btn-cancelar" (click)="cancelarEdicion()">✖</button>
+      </div>
+      <!-- <input type="text" class="input-editar" [(ngModel)]="mensajeEditandoTexto" /> -->
+      <textarea class="input-editar" [(ngModel)]="mensajeEditandoTexto" rows="1"></textarea>
+
+    </div>
+
+    <ng-template #mostrarMensaje>
+      <div class="text-content">{{ msg.message }}</div>
+    </ng-template>
+
+    <div class="timestamp" *ngIf="msg.timestamp?.seconds">
+      {{ (msg.timestamp.seconds * 1000) | date: 'short' }}
+    </div>
+
+    <!-- Botón de menú 3 puntitos, solo para mensajes propios -->
+    <div *ngIf="msg.senderName === nombreUsuario" class="menu-container">
+      <button class="menu-button" (click)="toggleMenu(msg.id)" [attr.data-id]="msg.id">
+        ⋮
+      </button>
+
+      <div *ngIf="isMenuOpen(msg.id)" class="menu-options">
+        <button class="editarinput" (click)="iniciarEdicion(msg)">Editar</button>
+        <button class="eliminarinput" (click)="eliminarMensaje(msg)">Eliminar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Zona de entrada -->
+<!-- <div class="chat-input">
+  <input
+    type="text"
+    [(ngModel)]="mensajeTextoValue"
+    placeholder="Escribe tu mensaje..."
+    (keyup.enter)="enviarMensaje()"
+  />
+  <button (click)="enviarMensaje()">Enviar</button>
+  <button disabled style="cursor: not-allowed; opacity: 0.5;">🎤 Grabar</button>
+</div> -->
+
+<!-- Zona de entrada -->
+<div class="chat-input">
+  <textarea [(ngModel)]="mensajeTextoValue" placeholder="Escribe tu mensaje..." class="chat-textarea"
+    (keyup.enter)="enviarMensaje()" rows="1"></textarea>
+
+  <button type="button" (click)="enviarMensaje()"><mat-icon>send</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,507 @@
+<div class="contenedorPrincipal">
+  <div class="contenedor">
+    <div class="contendorIzquierdo">
+      <!-- Calendario ocupa 40% de la altura de la ventana -->
+      <section class="contenedorCalendario">
+        <header class="fecha-header">
+          <h2 class="fechaActual_h2">{{ fechaActual | date: 'EEEE d MMMM, y' }}</h2>
+        </header>
+        <div class="calendar-wrapper">
+          <mat-calendar [(selected)]="fechaActual" class="calendario-grupal">
+          </mat-calendar>
+        </div>
+      </section>
+
+      <!-- Chat ocupa el resto (60% de la ventana) con scroll interno -->
+      <section class="chat">
+        <div class="titulochatGeneral">
+          <h2 class="chatTitulo">Chat General</h2>
+          <button (click)="onVaciarChat()">Vaciar chat</button>
+        </div>
+        <app-chat-general></app-chat-general>
+      </section>
+    </div>
+
+    <div class="contendorDerecho">
+      <div class="header">
+        <button class="agregarTarea" (click)="mostrarFormulario = true">+ Nueva Tarea</button>
+
+        <!-- <div class="user-account">
+          <div class="user-icon">👤</div>
+          <div class="user-name" [attr.data-text]="nombreUsuario()">
+            {{ nombreUsuario() }}
+          </div>
+        </div> -->
+        <div class="user-account">
+          <mat-icon class="user-icon" aria-hidden="false" aria-label="Usuario">account_circle</mat-icon>
+          <span class="user-name">{{ nombreUsuario() }}</span>
+        </div>
+      </div>
+
+      <div class="tateras">
+        <div class="inicio">
+          <!-- <h2 class="inicioH2">🟢Inicio</h2> -->
+          <h2 class="inicioH2">
+            <mat-icon>play_circle_filled</mat-icon>
+            Inicio
+          </h2>
+          <ul cdkDropList #inicioList="cdkDropList" [cdkDropListData]="tareasInicio()"
+            [cdkDropListConnectedTo]="[procesoList, finalizadoList]" (cdkDropListDropped)="drop($event, 'inicio')"
+            [cdkDropListDisabled]="isMobile()">
+            <li *ngFor="let tarea of tareasInicio()" cdkDrag [cdkDragData]="tarea" class="tarea-card"
+              (click)="seleccionarTarea(tarea)" [cdkDragDisabled]="isMobile()">
+              <!-- contenido de la tarea... -->
+              <div class="tarea-contenido">
+                <div class="tarea-titulo">{{ tarea.titulo }}</div>
+                <div class="tarea-descripcion">{{ tarea.descripcion }}</div>
+                <div class="tarea-meta">
+                  <!-- <span class="tarea-fecha">Inicio: {{ tarea.fecha }}</span>
+                  <span class="tarea-fecha">Fin: {{ tarea.fechaFin }}</span> -->
+                  <!-- ✅ Mostrar ambas si existen -->
+                  <ng-container *ngIf="tarea.fecha && tarea.fechaFin; else soloUnaFecha">
+                    <span class="tarea-fecha">Inicio: {{ tarea.fecha }}</span>
+                    <span class="tarea-fecha"> Fin: {{ tarea.fechaFin }}</span>
+                  </ng-container>
+
+                  <!-- ❗Solo una fecha -->
+                  <ng-template #soloUnaFecha>
+                    <span class="tarea-fecha">
+                      Fecha: {{ tarea.fecha || tarea.fechaFin || 'Sin fecha' }}
+                    </span>
+                  </ng-template>
+                  <!-- <span class="tarea-hora">Hora: {{ tarea.hora }}</span> -->
+                  <!-- Mostrar ambas horas si existen -->
+                  <ng-container *ngIf="tarea.horaInicio && tarea.horaFin; else unaHora">
+                    <span class="tarea-hora">Hora Inicio: {{ tarea.horaInicio }}</span>
+                    <span class="tarea-hora">Hora Fin: {{ tarea.horaFin }}</span>
+                  </ng-container>
+
+
+                  <ng-template #unaHora>
+                    <span class="tarea-hora">
+                      Hora: {{ tarea.horaInicio || tarea.horaFin || 'Sin hora' }}
+                    </span>
+                  </ng-template>
+
+                  <!-- <div class="tarea-estado">Estado: {{ tarea.estado }}</div> -->
+                  <div class="tarea-estado" *ngIf="tarea.estado" [ngClass]="{
+                          'estado-inicio': tarea.estado.trim().toLowerCase() === 'inicio',
+                          'estado-proceso': tarea.estado.trim().toLowerCase() === 'proceso',
+                          'estado-finalizado': tarea.estado.trim().toLowerCase() === 'finalizado'
+                        }">
+                    Estado: {{ tarea.estado }}
+                  </div>
+                  <div class="tarea-responsable" *ngIf="tarea.assignedToName">
+                    Responsable: {{ tarea.assignedToName }}
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="tarea-buttons">
+                <div class="btsEditElimn">
+                  <button class="btn-editar" (click)="editarTarea(tarea)"> <mat-icon
+                      class="icono-editar">edit</mat-icon></button>
+                  <button class="btn-eliminar" (click)="eliminarTarea(tarea.id)"><mat-icon
+                      class="icono-eliminar">delete</mat-icon></button>
+                </div>
+
+
+                <!-- AÑADE AQUÍ LAS FLECHAS -->
+                <div class="tarea-arrows">
+                  <button class="arrow left" (click)="cambiarEstado(tarea, 'anterior')">‹</button>
+                  <button class="arrow right" (click)="cambiarEstado(tarea, 'siguiente')">›</button>
+                </div>
+              </div>
+
+
+            </li>
+          </ul>
+        </div>
+
+        <div class="proceso">
+          <!-- <h2 class="procesoH2">🟡En Proceso</h2> -->
+          <h2 class="procesoH2">
+            <mat-icon>autorenew</mat-icon>
+            En Proceso
+          </h2>
+          <ul cdkDropList #procesoList="cdkDropList" [cdkDropListData]="tareasProceso()"
+            [cdkDropListConnectedTo]="[inicioList, finalizadoList]" (cdkDropListDropped)="drop($event, 'proceso')"
+            [cdkDropListDisabled]="isMobile()">
+            <li *ngFor="let tarea of tareasProceso()" cdkDrag [cdkDragData]="tarea" class="tarea-card"
+              (click)="seleccionarTarea(tarea)">
+              <!-- contenido de la tarea... -->
+              <div class="tarea-contenido">
+                <div class="tarea-titulo">{{ tarea.titulo }}</div>
+                <div class="tarea-descripcion">{{ tarea.descripcion }}</div>
+                <div class="tarea-meta">
+                  <!-- <span class="tarea-fecha">{{ tarea.fecha }}</span>
+                  <span class="tarea-hora">{{ tarea.hora }}</span> -->
+                  <ng-container *ngIf="tarea.fecha && tarea.fechaFin; else soloUnaFecha">
+                    <span class="tarea-fecha">Inicio: {{ tarea.fecha }}</span>
+                    <span class="tarea-fecha">Fin: {{ tarea.fechaFin }}</span>
+                  </ng-container>
+
+                  <!-- ❗Solo una fecha -->
+                  <ng-template #soloUnaFecha>
+                    <span class="tarea-fecha">
+                      Fecha: {{ tarea.fecha || tarea.fechaFin || 'Sin fecha' }}
+                    </span>
+                  </ng-template>
+                  <!-- <span class="tarea-hora">Hora: {{ tarea.hora }}</span> -->
+                  <ng-container *ngIf="tarea.horaInicio && tarea.horaFin; else unaHora">
+                    <span class="tarea-hora">Hora Inicio: {{ tarea.horaInicio }}</span>
+                    <span class="tarea-hora">Hora Fin: {{ tarea.horaFin }}</span>
+                  </ng-container>
+                  <ng-template #unaHora>
+                    <span class="tarea-hora">
+                      Hora: {{ tarea.horaInicio || tarea.horaFin || 'Sin hora' }}
+                    </span>
+                  </ng-template>
+                  <!-- <div class="tarea-estado">Estado: {{ tarea.estado }}</div> -->
+                  <div class="tarea-estado" [ngClass]="{
+                      'estado-inicio': tarea.estado.toLowerCase() === 'inicio',
+                      'estado-proceso': tarea.estado.toLowerCase() === 'proceso',
+                      'estado-finalizado': tarea.estado.toLowerCase() === 'finalizado'
+                    }">
+                    Estado: {{ tarea.estado }}
+                  </div>
+                  <div class="tarea-responsable" *ngIf="tarea.assignedToName">
+                    Responsable: {{ tarea.assignedToName }}
+                  </div>
+                </div>
+              </div>
+              <div class="tarea-buttons">
+                <button class="btn-editar" (click)="editarTarea(tarea)"> <mat-icon
+                    class="icono-editar">edit</mat-icon></button>
+                <!-- <button class="btn-eliminar" (click)="eliminarTarea(tarea.id)"><mat-icon class="icono-eliminar">delete</mat-icon></button> -->
+                <!-- AÑADE AQUÍ LAS FLECHAS -->
+                <div class="tarea-arrows">
+                  <button class="arrow left" (click)="cambiarEstado(tarea, 'anterior')">‹</button>
+                  <button class="arrow right" (click)="cambiarEstado(tarea, 'siguiente')">›</button>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+
+        <div class="finalizado">
+          <!-- <h2 class="finalizadoH2">🔵Finalizados</h2> -->
+          <h2 class="finalizadoH2">
+            <mat-icon>check_circle</mat-icon>
+            Finalizados
+          </h2>
+          <ul cdkDropList #finalizadoList="cdkDropList" [cdkDropListData]="tareasFinalizado()"
+            [cdkDropListConnectedTo]="[inicioList, procesoList]" (cdkDropListDropped)="drop($event, 'finalizado')"
+            [cdkDropListDisabled]="isMobile()">
+            <li *ngFor="let tarea of tareasFinalizado()" cdkDrag [cdkDragData]="tarea" class="tarea-card"
+              (click)="seleccionarTarea(tarea)">
+              <!-- contenido de la tarea... -->
+              <div class="tarea-contenido">
+                <div class="tarea-titulo">{{ tarea.titulo }}</div>
+                <div class="tarea-descripcion">{{ tarea.descripcion }}</div>
+                <div class="tarea-meta">
+                  <span class="tarea-fecha">{{ tarea.fecha }}</span>
+                  <!-- <span class="tarea-hora">{{ tarea.hora }}</span> -->
+                  <ng-container *ngIf="tarea.horaInicio && tarea.horaFin; else unaHora">
+                    <span class="tarea-hora">Hora Inicio: {{ tarea.horaInicio }}</span>
+                    <span class="tarea-hora">Hora Fin: {{ tarea.horaFin }}</span>
+                  </ng-container>
+                  <ng-template #unaHora>
+                    <span class="tarea-hora">
+                      Hora: {{ tarea.horaInicio || tarea.horaFin || 'Sin hora' }}
+                    </span>
+                  </ng-template>
+                  <!-- <div class="tarea-estado">Estado: {{ tarea.estado }}</div> -->
+                  <div class="tarea-estado" [ngClass]="{
+                      'estado-inicio': tarea.estado.toLowerCase() === 'inicio',
+                      'estado-proceso': tarea.estado.toLowerCase() === 'proceso',
+                      'estado-finalizado': tarea.estado.toLowerCase() === 'finalizado'
+                    }">
+                    Estado: {{tarea.estado}} ✔
+                  </div>
+                  <div class="tarea-responsable" *ngIf="tarea.assignedToName">
+                    Responsable: {{ tarea.assignedToName }}
+                  </div>
+                </div>
+              </div>
+              <div class="tarea-buttons">
+                <!-- AÑADE AQUÍ LAS FLECHAS -->
+                <div class="tarea-arrows">
+                  <button class="arrow left" (click)="cambiarEstado(tarea, 'anterior')">‹</button>
+                  <button class="arrow right" (click)="cambiarEstado(tarea, 'siguiente')">›</button>
+                </div>
+                <!-- <button class="btn-editar" (click)="editarTarea(tarea)"> <mat-icon class="icono-editar">edit</mat-icon></button> -->
+                <button class="btn-eliminar" (click)="eliminarTarea(tarea.id)"><mat-icon
+                    class="icono-eliminar">delete</mat-icon></button>
+
+
+              </div>
+
+            </li>
+          </ul>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="informacion-tarea-card" *ngIf="tareaSeleccionada; else sinSeleccion">
+        <!-- 1. Encabezado con Título -->
+        <header class="tarea-header">
+          <h3 class="tarea-titulo-header">{{ tareaSeleccionada.titulo }}</h3>
+          <div class="tarea-badges">
+            <!-- <span class="badge fecha">Inicio: {{ tareaSeleccionada.fecha }}</span>
+            <span class="badge fecha">Fin: {{ tareaSeleccionada.fechaFin }}</span> -->
+            <!-- FECHAS -->
+            <ng-container *ngIf="tareaSeleccionada?.fecha && tareaSeleccionada?.fechaFin; else unaFechaSeleccionada">
+              <span class="badge fecha">Inicio: {{ tareaSeleccionada.fecha }}</span>
+              <span class="badge fecha">Fin: {{ tareaSeleccionada.fechaFin }}</span>
+            </ng-container>
+            <ng-template #unaFechaSeleccionada>
+              <span class="badge fecha">
+                Fecha: {{ tareaSeleccionada.fecha || tareaSeleccionada.fechaFin || 'Sin fecha' }}
+              </span>
+            </ng-template>
+
+            <!-- <span class="badge hora">Hora: {{ tareaSeleccionada.hora }}</span> -->
+            <ng-container *ngIf="tareaSeleccionada.horaInicio && tareaSeleccionada.horaFin; else unaHoraSeleccionada">
+              <span class="badge hora">Hora Inicio: {{ tareaSeleccionada.horaInicio }}</span>
+              <span class="badge hora">Hora Fin: {{ tareaSeleccionada.horaFin }}</span>
+            </ng-container>
+            <ng-template #unaHoraSeleccionada>
+              <span class="badge hora">
+                Hora: {{ tareaSeleccionada.horaInicio || tareaSeleccionada.horaFin || 'Sin hora' }}
+              </span>
+            </ng-template>
+
+            <span class="badge estado" *ngIf="tareaSeleccionada.estado" [ngClass]="{
+                          'badge-inicio': tareaSeleccionada.estado.trim().toLowerCase() === 'inicio',
+                          'badge-proceso': tareaSeleccionada.estado.trim().toLowerCase() === 'proceso',
+                          'badge-finalizado': tareaSeleccionada.estado.trim().toLowerCase() === 'finalizado'
+                        }">Estado: {{ tareaSeleccionada.estado }}</span>
+
+            <div class="responsable-asignado" *ngIf="tareaSeleccionada.assignedToName">
+              <mat-icon class="icono-responsable">person</mat-icon>
+              <span class="nombre-responsable">Responsable: {{ tareaSeleccionada.assignedToName }}</span>
+            </div>
+
+          </div>
+
+        </header>
+
+        <!-- 2. Descripción en contenedor con scroll si es muy larga -->
+        <section class="tarea-descripcion-box">
+          <p class="tarea-descripcion-texto">
+            {{ tareaSeleccionada.descripcion }}
+          </p>
+        </section>
+      </div>
+
+      <ng-template #sinSeleccion>
+        <p class="mensaje-sin-seleccionar">
+          Haz clic en una tarea para ver sus detalles aquí.
+        </p>
+
+        <div class="infotareasproximas">
+          <div *ngIf="tareaProxima() as proxima" class="proxima-tarea-container">
+            <h4 class="proxima-tarea-titulo">Próxima tarea:</h4>
+            <p class="proxima-tarea-nombre"><strong>{{ proxima.titulo }}</strong></p>
+
+            <p class="proxima-tarea-fecha-hora">
+              <!-- 📅 Fecha: <span class="fecha">{{ proxima.fecha || proxima.fechaFin }}</span> -->
+              <!-- ✅ Mostrar ambas si existen -->
+              <ng-container *ngIf="proxima.fecha && proxima.fechaFin; else soloUnaFechaProxima">
+                <mat-icon>today</mat-icon> Fecha:
+                <span class="fecha">Inicio: {{ proxima.fecha }}</span>
+                <span class="fecha"> Fin: {{ proxima.fechaFin }}</span>
+              </ng-container>
+
+              <!-- ❗ Solo una -->
+              <ng-template #soloUnaFechaProxima>
+                <mat-icon>today</mat-icon> Fecha:
+                <span class="fecha">{{ proxima.fecha || proxima.fechaFin || 'Sin fecha' }}</span>
+              </ng-template>
+
+
+
+
+              <!-- 🕒 Hora: <span class="hora">{{ proxima.hora }}</span><br> -->
+              <!-- Mostrar ambas horas si existen -->
+              <!-- 🕒 Mostrar ambas horas si existen -->
+              <ng-container *ngIf="proxima.horaInicio && proxima.horaFin; else unaHoraProxima">
+                <mat-icon>schedule</mat-icon> Hora:
+                <span class="hora">Inicio: {{ proxima.horaInicio }}</span>
+                <span class="hora">Fin: {{ proxima.horaFin }}</span><br>
+              </ng-container>
+
+              <ng-template #unaHoraProxima>
+                <mat-icon>schedule</mat-icon> Hora:
+                <span class="hora">{{ proxima.horaInicio || proxima.horaFin || 'Sin hora' }}</span><br>
+              </ng-template>
+
+              📌 Estado: <span class="estado" *ngIf="proxima.estado" [ngClass]="{
+                          'proxima-inicio': proxima.estado.trim().toLowerCase() === 'inicio',
+                          'proxima-proceso': proxima.estado.trim().toLowerCase() === 'proceso'
+                        }">{{ proxima.estado }}</span>
+            </p>
+            <!-- <div>
+              <mat-icon>alarm</mat-icon>
+            </div> -->
+            <p class=" alerta-proxima  mensaje-principal" [innerHTML]="mensajeTareaProxima"></p>
+
+
+
+          </div>
+
+          <div class="contadorTareas">
+            <h4 class="contador-titulo">Resumen de tareas</h4>
+            <p class="contador contadorInicio"><mat-icon>play_circle_filled</mat-icon> Inicio: <strong>{{
+                tareasInicio().length || 0 }}</strong></p>
+            <p class="contador contadorProceso"><mat-icon>autorenew</mat-icon> En proceso: <strong>{{
+                tareasProceso().length || 0 }}</strong></p>
+            <p class="contador contadorFinalizado"><mat-icon>check_circle</mat-icon> Finalizados: <strong>{{
+                tareasFinalizado().length || 0 }}</strong>
+            </p>
+            <p class="parrafomotivacional">
+              🌟 Cada tarea que completas es un paso más hacia tus metas. ¡Sigue adelante, lo estás haciendo excelente!
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </ng-template>
+    </div>
+
+    <!-- Ventana emergente -->
+    <div class="formularioEmerjente" *ngIf="mostrarFormulario">
+      <div class="formulario-container">
+        <h2>Crear Nueva Tarea</h2>
+        <form (ngSubmit)="crearTarea()">
+          <div class="campo-titulo-responsable">
+            <label for="titulo">Título</label>
+            <div class="asignar-persona">
+              <!-- <a type="button" class="btn-asignar" aria-label="Asignar responsable" (click)="abrirDialogAsignar()">
+                <mat-icon>person_add</mat-icon>
+              </a> -->
+              <a *ngIf="usuarioUid === ownerUidGrupo" type="button" class="btn-asignar" aria-label="Asignar responsable"
+                (click)="abrirDialogAsignar()">
+                <mat-icon>person_add</mat-icon>
+              </a>
+              <p class="resonaselecionada">
+                {{ nuevaTarea.assignedToName ? nuevaTarea.assignedToName : 'Asignar Responsable' }}
+              </p>
+            </div>
+          </div>
+          <input id="titulo" [(ngModel)]="nuevaTarea.titulo" name="titulo" required>
+
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" [(ngModel)]="nuevaTarea.descripcion" name="descripcion"></textarea>
+
+          <div class="fechastarea">
+            <div class="fechaInicio">
+              <label for="fechaInicio">Fecha Inicio</label>
+              <input id="fechaInicio" type="date" [(ngModel)]="nuevaTarea.fecha" name="fechaInicio">
+            </div>
+            <div class="fechafin">
+              <label for="fechaFin">Fecha Fin</label>
+              <input id="fechaFin" type="date" [(ngModel)]="nuevaTarea.fechaFin" name="fechaFin">
+            </div>
+          </div>
+
+
+
+          <!-- <label for="hora">Hora</label>
+          <input id="hora" type="time" [(ngModel)]="nuevaTarea.hora" name="hora" required
+            pattern="(1[0-2]|0?[1-9]):[0-5][0-9]"> -->
+          <div class="horastarea">
+            <div class="horaInicio">
+              <label for="horaInicio">Hora Inicio</label>
+              <input id="horaInicio" type="time" [(ngModel)]="nuevaTarea.horaInicio" name="horaInicio">
+            </div>
+            <div class="horaFin">
+              <label for="horaFin">Hora Fin</label>
+              <input id="horaFin" type="time" [(ngModel)]="nuevaTarea.horaFin" name="horaFin">
+            </div>
+          </div>
+
+
+          <input id="estado" type="hidden" [(ngModel)]="nuevaTarea.estado" name="estado">
+
+          <div class="form-buttons">
+            <button [disabled]="loading()" type="submit">
+              {{ loading() ? 'Guardando...' : 'Guardar' }}
+            </button>
+            <button type="button" (click)="cerrarFormulario()">Cancelar</button>
+          </div>
+        </form>
+        <!-- Este template es el diálogo -->
+        <!-- <ng-template #dialogAsignar>
+          <h3 mat-dialog-title>Selecciona responsable</h3>
+          <mat-dialog-content>
+            <mat-nav-list>
+              <mat-list-item *ngFor="let m of miembrosDelGrupo">
+                <button mat-button (click)="seleccionarResponsable(m.nombre)">
+                  {{ m.nombre }}
+                </button>
+              </mat-list-item>
+            </mat-nav-list>
+          </mat-dialog-content>
+        </ng-template> -->
+        <!-- <ng-template #dialogAsignar>
+          <h3>Selecciona responsable</h3>
+          <div class="contenedor-lista-responsables">
+            <ul>
+              <li *ngFor="let m of miembrosDelGrupo">
+                <button class="btn-responsable" (click)="seleccionarResponsable(m.nombre)">
+                  {{ m.nombre }}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </ng-template> -->
+
+        <ng-template #dialogAsignar>
+          <div class="dialog-asignar-container">
+            <h3 class="titulo-dialog">Selecciona responsable</h3>
+            <div class="contenedor-lista-responsables">
+              <ul class="lista-responsables">
+                <li *ngFor="let m of miembrosDelGrupo">
+                  <button class="btn-responsable" (click)="seleccionarResponsable(m.nombre)">
+                    {{ m.nombre }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+
+
+
+      </div>
+    </div>
+    <!-- lista de tareas del calendario -->
+    <!-- overlay escucha el click para cerrar -->
+    <div *ngIf="mostrarModalTareas()" class="overlay" (click)="cerrarModalTareas()">
+      <!-- dentro del modal detenemos la propagación -->
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h3>Tareas del {{ fechaSeleccionada }}</h3>
+        <ul>
+          <li *ngFor="let t of tareasSeleccionadas" [ngClass]="t.estado">
+            <strong>[{{ t.estado }}]</strong> {{ t.titulo }} - {{ t.fechaFin }}
+            <span *ngIf="t.horaInicio || t.horaFin">
+              ({{ t.horaInicio || t.horaFin }})
+            </span>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+</div>

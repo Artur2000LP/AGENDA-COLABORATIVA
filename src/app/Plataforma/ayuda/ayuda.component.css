@@ -1,0 +1,96 @@
+/* Contenedor general */
+.ayuda-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Títulos principales */
+.ayuda-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #0066cc;
+  text-align: center;
+  border-bottom: 2px solid #0066cc;
+  padding-bottom: 10px;
+}
+
+/* Subtítulos */
+.ayuda-container h2 {
+  font-size: 1.6rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #444;
+  border-left: 4px solid #0066cc;
+  padding-left: 12px;
+}
+
+/* Párrafos */
+.ayuda-container p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* Listas */
+.ayuda-container ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.ayuda-container li {
+  margin-bottom: 16px;
+  background-color: #f4f8fb;
+  padding: 12px 16px;
+  border-left: 4px solid #00aaff;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.ayuda-container li:hover {
+  background-color: #e8f3fc;
+}
+
+.ayuda-container li strong {
+  display: block;
+  color: #222;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+/* Sección de contacto */
+.contacto a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contacto a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .ayuda-container {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .ayuda-container h1 {
+    font-size: 2rem;
+  }
+
+  .ayuda-container h2 {
+    font-size: 1.3rem;
+  }
+
+  .ayuda-container p,
+  .ayuda-container li {
+    font-size: 0.95rem;
+  }
+}

@@ -1,0 +1,238 @@
+<div class="contenedor-plataforma">
+  <div class="overlay" *ngIf="menuAbierto" (click)="closeMobileMenu()" [attr.aria-hidden]="!menuAbierto"></div>
+  <button class="nenubtn" [class.burbuja-btn]="!menuAbierto" [ngClass]="{ 'abierto': menuAbierto }"
+    (click)="toggleMenuMobile()" aria-label="Abrir menú" *ngIf="isMobile" [style.transform]="!menuAbierto
+    ? 'translate('+ posX +'px,'+ posY +'px)'
+    : null" (pointerdown)="!menuAbierto && startDrag($event)" (document:pointermove)="!menuAbierto && onDrag($event)"
+    (document:pointerup)="!menuAbierto && endDrag()">
+    <mat-icon>{{ menuAbierto ? 'close' : 'menu' }}</mat-icon>
+  </button>
+  <aside class="barra-lateral" [class.colapsada]="colapsada" [class.abierta]="menuAbierto" role="navigation"
+    [attr.aria-expanded]="!colapsada && !isMobile">
+    <div class="top-menu">
+      <div class="top" [matTooltip]="'>'" [matTooltipDisabled]="!colapsada" matTooltipPosition="right">
+        <div class="usuario" *ngIf="usuario$ | async as usuario">
+          <div class="avatar-container" (click)="toggleColapsada()">
+            <button class="avatar" aria-label="Toggle sidebar" [attr.aria-pressed]="!colapsada">
+              {{ usuario.displayName.charAt(0) }}
+              <div class="flecha-guia" [ngClass]="!colapsada ? 'izquierda' : 'derecha'" aria-hidden="true">
+              </div>
+            </button>
+          </div>
+          <div class="info" *ngIf="!colapsada">
+            <div class="nombre">{{ usuario.displayName }}</div>
+            <div class="correo">{{ usuario.email }}</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="menu" aria-label="Menú principal">
+        <ul>
+          <li>
+            <a class="item" (click)=" setOpcionActiva('recordatorio'); irAPersonales()" [matTooltip]="'Mi recordatorio'"
+              [matTooltipDisabled]="!colapsada" matTooltipPosition="right"
+              [ngClass]="{ 'activo': opcionActiva === 'recordatorio' }">
+              <mat-icon>person</mat-icon>
+              <span class="texto-item">Mi recordatorio</span>
+            </a>
+
+
+          </li>
+        </ul>
+
+        <div class="grupos">
+          <div class="titulomascrear">
+            <h2 class="grupo-titulo" [matTooltip]="'Mis grupos'" [matTooltipDisabled]="!colapsada"
+              matTooltipPosition="right">
+              <mat-icon>folder</mat-icon>
+              <span>Mis grupos</span>
+            </h2>
+          </div>
+          <a class="btnCrearGrupo" (click)="setOpcionActiva('crear'); crearGrupo()" [matTooltip]="'Crear grupo'"
+            [matTooltipDisabled]="!colapsada" matTooltipPosition="right"
+            [ngClass]="{ 'activo': opcionActiva === 'crear' }">
+            <mat-icon>add_circle</mat-icon>
+            <span class="texto-item">Crear grupo</span>
+          </a>
+          <ul class="listaGrupos">
+            <li *ngFor="let g of misGrupos()">
+              <div class="grupo-item">
+                <a class="item" (click)="irAGrupo(g.id, g.nombre)" [matTooltip]="g.nombre"
+                  [matTooltipDisabled]="!colapsada" matTooltipPosition="right"
+                  [ngClass]="{ 'activo': opcionActiva === g.id }">
+                  <mat-icon>groups</mat-icon>
+                  <span class="texto-item">{{ g.nombre }}</span>
+                  <a *ngIf="!colapsada" type="button" class="toggle-miembros"
+                    (click)="$event.stopPropagation(); toggleMiembros(g.id)" [attr.aria-expanded]="isAbierto(g.id)"
+                    aria-label="Mostrar miembros">
+                    <mat-icon>
+                      {{ isAbierto(g.id) ? 'expand_less' : 'expand_more' }}
+                    </mat-icon>
+                  </a>
+
+                  <a *ngIf="!colapsada && esCreador(g)" type="button" class="btn-quitar" (click)="
+                      $event.stopPropagation();
+                      eliminarGrupo(g.id)" aria-label="Eliminar grupo">
+                    <mat-icon>delete</mat-icon>
+                  </a>
+
+                </a>
+
+              </div>
+
+              <ul class="sublista-miembros" *ngIf="isAbierto(g.id)">
+                <ng-container *ngFor="let miembroUid of g.miembros; let i = index">
+                  <ng-container *ngIf="usuariosCache[miembroUid]">
+
+                    <li *ngIf="g.miembros.indexOf(miembroUid) === i && !colapsada" class="miembro-item">
+                      <div class="miembroschat">
+                        <span class="miembro-nombre" (click)="toggleEmail(miembroUid)"
+                          [attr.aria-expanded]="isEmailOpen(miembroUid)">
+                          {{ getNombreMiembro(miembroUid) }}
+                        </span>
+                        <small class="miembro-email"
+                          *ngIf=" usuarioActual?.uid === g.ownerUid && isEmailOpen(miembroUid)">
+                          {{ getEmailMiembro(miembroUid) }}
+                        </small>
+                      </div>
+
+                      <ng-container *ngIf="usuarioActual?.uid === g.ownerUid &&  miembroUid === g.ownerUid">
+
+                        <button class="btn-agregar" (click)="abrirModalAgregarMiembros(g.id, g.nombre)">
+                          <mat-icon>person_add</mat-icon>
+                        </button>
+
+                      </ng-container>
+
+                      <button *ngIf="usuarioActual?.uid === g.ownerUid && miembroUid !== g.ownerUid" class="btn-quitar"
+                        (click)="quitarMiembro(g.id, miembroUid)" title="Quitar miembro">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </li>
+
+                  </ng-container>
+
+                </ng-container>
+              </ul>
+            </li>
+          </ul>
+
+
+
+        </div>
+      </nav>
+    </div>
+
+    <div class="zona-inferior">
+      <ul>
+        <li>
+
+          <a class="item" [routerLink]="['ayuda']" routerLinkActive="active"
+            (click)="setOpcionActiva('ayuda'); closeMobileMenu()" [matTooltip]="'Ayuda'"
+            [matTooltipDisabled]="!colapsada" matTooltipPosition="right"
+            [ngClass]="{ 'activo': opcionActiva === 'ayuda' }">
+            <mat-icon>help_outline</mat-icon>
+            <span class="texto-item">Ayuda</span>
+          </a>
+        </li>
+        <li>
+          <a class="item" (click)="setOpcionActiva('manual'); closeMobileMenu()" [matTooltip]="'Manual de usuario'"
+            [matTooltipDisabled]="!colapsada" matTooltipPosition="right"
+            [ngClass]="{ 'activo': opcionActiva === 'manual' }">
+            <mat-icon>menu_book</mat-icon>
+            <span class="texto-item">Manual de usuario</span>
+          </a>
+        </li>
+        <li>
+          <a class="item cerrar" (click)="setOpcionActiva('cerrar'); cerrarSesion()" [matTooltip]="'Cerrar sesión'"
+            [matTooltipDisabled]="!colapsada" matTooltipPosition="right"
+            [ngClass]="{ 'activo': opcionActiva === 'cerrar' }">
+            <mat-icon>logout</mat-icon>
+            <span class="texto-item">Cerrar sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="contenido">
+    <section class="zona-trabajo">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+
+
+</div>
+
+<div class="modal-overlay" *ngIf="modalCrearGrupoAbierto" (click)="cerrarModalGrupo()"></div>
+
+
+<div class="modal" *ngIf="modalCrearGrupoAbierto">
+  <div class="modal-header">
+    <h2 *ngIf="!modoAgregarMiembros">
+      <mat-icon class="modal-icon">group_add</mat-icon>
+      Crear nuevo grupo
+    </h2>
+    <h2 *ngIf="modoAgregarMiembros">
+      <mat-icon class="modal-icon">person_add</mat-icon>
+      Añadir miembros al grupo:
+      <span class="grupo-nombre">{{ nombreGrupoActual }}</span>
+    </h2>
+
+    <div *ngIf="modoAgregarMiembros && grupoActual && esCreador(grupoActual)">
+      <label class="input-label">
+        <mat-icon class="input-icon">edit</mat-icon>
+        Grupo:
+        <input type="text" [(ngModel)]="nombreGrupoActual" placeholder="Nuevo nombre del grupo" class="input-text" />
+      </label>
+    </div>
+
+    <button class="close-btn" (click)="cerrarModalGrupo()" aria-label="Cerrar ventana">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <label class="input-label" *ngIf="!modoAgregarMiembros">
+      <mat-icon class="input-icon">badge</mat-icon>
+      Grupo:
+      <input type="text" [(ngModel)]="nombreNuevoGrupo" placeholder="Ej. Grupo de estudio" class="input-text" />
+    </label>
+
+    <label class="input-label">
+      <mat-icon class="input-icon">search</mat-icon>
+      Buscar:
+      <input type="text" [(ngModel)]="terminoBusqueda" (input)="buscarUsuarios()" placeholder="Ej. nombre o correo"
+        class="input-text" />
+    </label>
+
+    <div *ngIf="resultadosBusqueda.length > 0" class="resultados-busqueda">
+      <p><strong><mat-icon class="input-icon">manage_search</mat-icon> Resultados:</strong></p>
+      <ul>
+        <li *ngFor="let user of resultadosBusqueda">
+          <div>
+            <strong>{{ user.displayName || 'Sin nombre' }}</strong><br />
+            <small>{{ user.email }}</small>
+          </div>
+          <button class="btn-mini" (click)="agregarMiembro(user)">Agregar</button>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="miembrosSeleccionados.length > 0" class="miembros-seleccionados">
+      <p><strong><mat-icon class="input-icon">group</mat-icon> Miembros seleccionados:</strong></p>
+      <ul>
+        <li *ngFor="let user of miembrosSeleccionados">
+          <span>{{ user.displayName || user.email }}</span>
+          <button class="btn-mini remove" (click)="removerMiembro(user)">Quitar</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn-cancelar" (click)="cerrarModalGrupo()">Cancelar</button>
+    <button class="btn-crear" *ngIf="!modoAgregarMiembros" (click)="confirmarCrearGrupo()">Crear</button>
+    <button class="btn-crear" *ngIf="modoAgregarMiembros" (click)="confirmarCrearGrupo()">Añadir</button>
+  </div>
+</div>

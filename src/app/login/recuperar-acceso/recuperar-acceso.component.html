@@ -1,0 +1,36 @@
+<!-- recuperar-acceso.component.html -->
+<div class="contenedor-recuperar">
+  <form (ngSubmit)="onSubmit(recuperarForm)" #recuperarForm="ngForm" class="tarjeta-recuperar">
+    <h2 class="titulo">Recuperar acceso</h2>
+
+    <div class="campo-formulario">
+      <label for="email">Correo electrónico</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        ngModel
+        #emailInput="ngModel"
+        required
+        email
+        placeholder="Ingresa tu correo"
+      />
+      <small class="mensaje-error" *ngIf="emailInput.invalid && emailInput.touched">
+        <span *ngIf="emailInput.errors?.['required']">El correo es obligatorio.</span>
+        <span *ngIf="emailInput.errors?.['email']">Debe ser un correo válido.</span>
+      </small>
+    </div>
+
+    <button type="submit" class="btn-enviar" [disabled]="recuperarForm.invalid">
+      Enviar enlace de recuperación
+    </button>
+
+    <div class="mensaje-flotante" *ngIf="mensaje">
+      {{ mensaje }}
+    </div>
+
+    <div class="registro">
+      ¿Recuerdas tu contraseña? <a [routerLink]="['/login/inicio-sesion']">Inicia sesión</a>
+    </div>
+  </form>
+</div>

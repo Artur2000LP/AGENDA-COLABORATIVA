@@ -1,0 +1,1119 @@
+:root {
+  --color-fondo-llamatibos: #128c7e;
+  /* --color-fondo-llamatibos: #384745; */
+}
+.contenedorPrincipal {
+  /* padding: 5px; */
+  padding-bottom: 0;
+  min-height: 100vh;
+}
+
+.contenedor {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex: 1;  
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: #f7f7f7;
+  ;
+}
+
+/* --- CONTENEDOR IZQUIERDO --- */
+.contendorIzquierdo {
+  flex: 0 0 25%;
+  padding: 2px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contendorDerecho {
+  /* padding: 5px; */
+  box-sizing: border-box;
+  width: 100%;
+  margin-right: .5rem;
+  /* height: 100vh; */
+  overflow-y: auto;
+
+}
+
+/* header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: .5rem;
+}
+
+.agregarTarea,
+.modo {
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* .user-account {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #05101e;
+  background-color: #f8f8f8;
+  box-sizing: border-box;
+} */
+
+.user-account {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;           /* separación entre icono y texto */
+  font-family: inherit;  /* hereda tipografía */
+  margin-right: .5rem;
+}
+
+.user-account .user-icon {
+  font-size: 1.6rem;     /* tamaño cómodo */
+  color: #555;           /* un gris suave */
+  /* nada de background */
+}
+
+.user-account .user-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;           /* texto legible */
+  white-space: nowrap;   /* evita que el nombre se quiebre */
+}
+
+
+/* Ícono fijo */
+.user-icon {
+  font-size: 22px;
+}
+
+/* Nombre con animación responsiva */
+/* .user-name {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #05101e;
+  animation: typing 20s steps(100, end) infinite, blink 1s step-end infinite;
+}
+
+@keyframes typing {
+  0% { width: 0; }
+  50% { width: 100%; }
+  55% { width: 100%; }
+  100% { width: 0; }
+}
+
+@keyframes blink {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: #05101e; }
+} */
+
+
+/* Botón agregar tarea */
+.agregarTarea {
+  background-color: var(--color-fondo-llamatibos);
+  color: white;
+}
+
+.agregarTarea:hover {
+  background-color: #10766a;
+  transform: scale(1.03);
+}
+
+/* Botón modo (oscuro/claro) */
+/* falte estilo */
+/*formulario emergente */
+.formularioEmerjente {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* animation: fadeIn 0.3s ease-in-out; */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.formulario-container {
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ddd;
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.formulario-container h2 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.formulario-container label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #444;
+}
+
+.formulario-container input,
+.formulario-container textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  background-color: #fefefe;
+  font-size: 0.95rem;
+}
+
+.formulario-container input:focus,
+.formulario-container textarea:focus {
+  border-color: #4CAF50;
+  outline: none;
+  background-color: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.form-buttons button {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s;
+}
+
+.form-buttons button[type="submit"] {
+  background-color: var(--color-fondo-llamatibos);
+  color: white;
+}
+
+.form-buttons button[type="submit"]:hover {
+  background-color: #12776b;
+  transform: scale(1.03);
+}
+
+.form-buttons button[type="button"] {
+  background-color: #af3c1f;
+  color: #fbe5e5;
+}
+
+.form-buttons button[type="button"]:hover {
+  background-color: #6c2513;
+  transform: scale(1.03);
+}
+
+/* tareas  */
+.tateras {
+  display: flex;
+  gap: .3rem;
+  margin-top: .5rem;
+  /* width: 100%; */
+  height: 80vh;
+  /* width: 1000px; */
+  /* height: 400px; */
+  box-sizing: border-box;
+}
+
+.tateras>div {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5ef;
+  /* border-radius: 8px; */
+  padding: 0 5px;
+  min-height: 300px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  /* border-left: 6px solid var(--color-fondo-llamatibos); */
+  /* border-right: 2px solid var(--color-fondo-llamatibos); */
+}
+.tateras .inicio {
+  border-radius: 8px 0 0 8px;
+}
+/* .tateras .proceso {} */
+.tateras .finalizado {
+   border-radius: 0 8px 8px 0;
+   /* border-right: 6px solid var(--color-fondo-llamatibos); */
+}
+
+.tateras h2 {
+  /* margin: 5px; */
+  font-size: 1.1rem;
+  text-align: center;
+  font-weight: 600;
+  /* border-left: 8px solid var(--color-fondo-llamatibos); */
+  border-bottom: 3px solid var(--color-fondo-llamatibos);
+}
+
+.tateras .inicio .inicioH2 {
+  color: #2e7d32;
+}
+
+.tateras .proceso .procesoH2 {
+  color: #ae771e;
+}
+
+.tateras .finalizado .finalizadoH2 {
+  color: #1565c0;
+}
+
+.tateras ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+  box-sizing: border-box;
+  
+}
+
+.tarea-card {
+  position: relative;
+  background-color: 	#fdf6e3;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  cursor: grab;
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
+  min-height: 100px;
+  max-height: 160px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.tarea-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.tarea-card.cdk-drag-preview {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  cursor: grabbing;
+}
+
+.tarea-buttons {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  /* gap: 1rem; */
+  flex-shrink: 0;
+}
+ /* .tarea-buttons {
+  top: 8px;
+  right: 1px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  flex: none;         
+  gap: 0.5rem;
+  margin-left: 1rem;
+} */
+
+.btsEditElimn{
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 0 8px;
+  /* gap: .3rem; */
+}
+
+/* .inicio .tarea-buttons {
+  gap: .3rem;
+} */
+
+.tarea-buttons button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-editar:hover {
+  background-color: #e3f2fd;
+}
+
+.finalizado .tarea-buttons .btn-eliminar {
+  background-color: #e43724;
+}
+.finalizado .tarea-buttons .btn-eliminar .icono-eliminar {
+  color: #f6f6f6;
+}
+
+.finalizado .tarea-buttons .btn-eliminar:hover {
+  background-color: #581a13;
+}
+
+.icono-editar {
+  color: #4d9cebf1; 
+}
+
+.icono-eliminar {
+  color: #e53935; 
+}
+
+.tarea-arrows .arrow {
+  background: rgba(0,0,0,0.1);
+  border: none;
+  border-radius: 4px;
+  /* width: 24px; */
+  /* height: 24px; */
+  font-size: 1.2rem;
+  line-height: 1;
+  /* color: #333; */
+  cursor: pointer;
+  transition: background-color .2s;
+  margin: 1px;
+  padding: 4px 8px;
+}
+
+.mat-icon {
+    font-size: 1.3rem;
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+    line-height: 1;
+    display: inline-block;
+}
+
+.tarea-contenido {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  margin-right: 40px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.tarea-titulo {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.tarea-estado {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Colores según estado */
+.estado-inicio {
+  color: #2e7d32;
+}
+
+.estado-proceso {
+  color: #c1831fe7;
+}
+
+.estado-finalizado {
+  color: #1565c0;
+}
+
+
+.tarea-descripcion {
+  font-size: 0.9rem;
+  color: #555;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-height: 1.2em;
+  max-height: calc(1.2em * 2);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarea-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #043a33;
+  align-items: center;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.tarea-estado {
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.tateras ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tateras ul::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.tateras ul::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.tateras ul::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.cdk-drag-placeholder {
+  display: none !important;
+}
+
+.cdk-drag-animating {
+  transition: none !important;
+}
+
+.informacion-tarea-card {
+  background-color: #fdf6e3;
+  border: 1px solid #e0e0e0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* height: 30vh; */
+  margin-top: 10px;
+  border-top: 2px solid #3c763d;
+}
+
+.tarea-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+
+header.tarea-header .tarea-titulo-header {
+  font-size: 1.25rem;
+  margin: 0;
+  /* color: #141313; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* font-weight: 600; */
+  color: #043a33;  
+  font-weight: bold;
+}
+
+
+
+.tarea-badges {
+  display: flex;
+  gap: 6px;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  /* background-color: #e0e0e0; */
+  /* color: #555; */
+  font-weight: bold;
+  color: #107468;
+}
+
+/* .badge.estado {
+  background-color: #cfe3ff;
+  color: #1a73e8;
+} */
+.badge-inicio {
+  background-color: #aaf2adde;
+  color: #2e7d32;
+}
+
+.badge-proceso {
+  background-color: #fceacee0;
+  color: #c1831fe7;
+}
+
+.badge-finalizado {
+  background-color: #9cc6f5;
+  color: #1565c0;
+}
+/* 
+.badge.fecha {
+  background-color: #dff0d8;
+  color: #3c763d;
+} */
+
+.fechastarea , .horastarea{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.badge.hora {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+.tarea-descripcion-box {
+  max-height: 180px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  /* background-color: #fff; */
+}
+
+.tarea-descripcion-texto {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #444;
+  /* white-space: pre-wrap; */
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.mensaje-sin-seleccionar {
+  font-style: italic;
+  color: #777;
+}
+
+.mensaje-sin-seleccionar {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin: .8rem 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.infotareasproximas {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: .2rem;
+}
+
+.proxima-tarea-container {
+  flex: 1;
+  /* min-width: 300px; */
+  /* max-width: 420px; */
+  background-color: #e8f6f3;
+  border-left: 5px solid #0c8b7e;
+  padding: 0.2rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.proxima-tarea-titulo {
+  /* margin-bottom: 0; */
+  color: #0c8b7e;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.proxima-tarea-nombre {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.proxima-tarea-fecha-hora {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.5;
+  margin: 1px;
+}
+
+.proxima-tarea-fecha-hora .fecha,
+.proxima-tarea-fecha-hora .hora{
+  font-weight: bold;
+  color: #107468;
+}
+
+.proxima-inicio {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.proxima-proceso {
+  color: #c1831fe7;
+  font-weight: bold;
+}
+
+.alerta-proxima {
+  align-items: center;
+  background-color: #fff8e1;
+  border-left: 4px solid #ffb300;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  color: #5d4037;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.alerta-proxima::before {
+  content: "⏰";
+  font-size: 1.5rem;
+  color: #ff6f00;
+}
+
+.alerta-proxima span.retraso {
+  font-weight: bold;
+  color: #e65100;
+}
+
+.mensaje-principal{
+  /* padding: .2rem; */
+  margin: .8rem;
+}
+
+.contadorTareas {
+  flex: 1;
+  min-width: 250px;
+  max-width: 350px;
+  background-color: #fefefe;
+  border: 1px solid #ddd;
+  padding: 0 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.contador-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  /* margin-bottom: 0.75rem; */
+  color: #333;
+  margin: 0.5rem;
+}
+
+.contador {
+  margin: 0.4rem 0;
+  font-size: .9rem;
+}
+
+.contadorInicio {
+  color: #2e7d32;
+}
+
+.contadorProceso {
+  color: #f9a825;
+}
+
+.contadorFinalizado {
+  color: #1565c0;
+}
+
+.parrafomotivacional {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: #4B7BE5; /* Un azul vibrante y motivador */
+  margin-top: 10px;
+  text-shadow: 0 0 1px rgba(75, 123, 229, 0.4);
+}
+
+
+/* lado Izquierdo  */
+/* ========== Columna izquierda (calendario + chat) ========== */
+.contendorIzquierdo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  min-height: 0;
+  margin: 0 10px 0 0;
+  border-right: 2px solid var(--color-fondo-llamatibos);
+  padding: 0;
+}
+
+/* ========== Mitad superior: calendario + fecha + reporte ========== */
+.contenedorCalendario {
+  flex: 0 0 49%;
+  display: flex;
+  flex-direction: column;
+  /* padding: 5px; */
+  /* background-color: #e3f2fd; */
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+/* ––– Dentro de contenedorCalendario: Fecha + calendario ––– */
+.feche {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-sizing: border-box;
+  min-height: 0;
+}
+
+.contendorIzquierdo .contenedorCalendario .feche .calendarioMat .fechaActual_h2 {
+
+  flex: 0 0 12%;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  color: #ffffff;
+  background-color: var(--color-fondo-llamatibos);
+  /* all: initial;  */
+
+  /* margin: 0 10px; */
+  padding: 5px;
+  margin: 0;
+}
+
+/* Contenedor del mat-calendar, escala aplicada desde calendar-wrapper */
+.calendarioMat {
+  flex: 1;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.calendarioMat mat-calendar {
+  width: 90%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Texto informativo bajo el calendario (aprox. dos líneas) */
+.reportedetareas {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: #333;
+  /* max-height: 50px; */
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Envoltorio que aplica la reducción de escala al calendario */
+.calendar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transform: scale(0.95, 0.77);
+  transform-origin: top center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Aumenta el tamaño general del texto del calendario */
+.calendar-wrapper .mat-calendar {
+  font-size: 18px;
+}
+
+.fecha-resaltada>.mat-calendar-body-cell-content {
+  background-color: #ffd54f;
+  border-radius: 50%;
+  color: black;
+  font-weight: bold;
+}
+
+/* Aumenta el tamaño del texto en los días */
+.calendar-wrapper .mat-calendar-body-cell-content {
+  font-size: 18px;
+}
+
+/* Aumenta el tamaño del texto en la cabecera (mes, año, botones) */
+.calendar-wrapper .mat-calendar-period-button,
+.calendar-wrapper .mat-calendar-previous-button,
+.calendar-wrapper .mat-calendar-next-button {
+  font-size: 18px;
+}
+
+/* Aumenta el tamaño del texto en los nombres de los días (L, M, X, J...) */
+.calendar-wrapper .mat-calendar-table-header th {
+  font-size: 18px;
+}
+
+/* Opcional: colorear el fondo general del calendario para verificar que el CSS se está cargando */
+mat-calendar {
+  border: 2px solid #607d8b;
+  /* padding: 2px; */
+  border-radius: 4px;
+  margin: 5px;
+}
+
+.calendar-wrapper .mat-calendar .mat-calendar-header {
+  padding: 0;
+}
+
+.calendar-wrapper .mat-calendar .mat-calendar-header .mat-calendar-controls {
+  font-size: 18px;
+  padding: 0;
+  margin: 2px;
+}
+
+.calendar-wrapper .mat-calendar .mat-calendar-content {
+  padding: 0px;
+
+}
+
+.calendar-wrapper .mat-calendar-period-button,
+.calendar-wrapper .mat-calendar-previous-button,
+.calendar-wrapper .mat-calendar-next-button {
+  font-size: 19px;
+}
+
+app-chat-general{
+ height: 100vh;
+}
+
+.chat {
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+}
+
+
+.titulochatGeneral {
+  background-color: var(--color-fondo-llamatibos);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.chatTitulo {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 5px;
+  color: white;
+  user-select: none;
+}
+
+.titulochatGeneral button {
+  background-color: white;
+  color: var(--color-fondo-llamatibos);
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  margin: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.titulochatGeneral button:hover {
+  background-color: #0f7c6f;
+  color: white;
+}
+
+/* ventana emergente nombre  */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* .mat-calendar-body-cell-content{
+  background-color: #0c8b7e;
+} */
+/* 
+.mat-calendar-body-cell-content.fecha-unica {
+  background-color: #0c8b7e;
+  border-radius: 50%;
+}
+.mat-calendar-body-cell-content.rango-medio {
+  background-color: #0c8b7e;
+}
+.mat-calendar-body-cell-content.rango-inicio {
+  background-color: #0c8b7e;
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
+.mat-calendar-body-cell-content.rango-fin {
+  background-color: #0c8b7e;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+} */
+
+.mat-calendar-body-cell-content.highlight {
+  background-color: #0c8b7e;
+  
+}
+
+.overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); display: flex;
+  align-items: center; justify-content: center;
+}
+.modal {
+  background: white; padding: 1rem; border-radius: 8px;
+  max-width: 90%; width: 300px;
+}
+
+/* Fondo semi-transparente para toda la pantalla */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Ventana blanca centrada */
+.modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título del modal */
+.modal h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  text-align: center;
+  color: #333;
+}
+
+/* Lista sin puntos y con buen espaciado */
+.modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.modal ul li {
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  font-size: 1rem;
+}
+
+/* Estado en negrita */
+.modal ul li strong {
+  margin-right: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Para poder colorear cada estado, añade en el template:
+   <li *ngFor="let t of tareasSeleccionadas" [ngClass]="t.estado"> */
+  
+/* Verde para “inicio” */
+.modal ul li.inicio strong {
+  color: #0c8b7e;
+}
+
+/* Naranja para “proceso” */
+.modal ul li.proceso strong {
+  color: #f5a623;
+}
+
+/* Azul para “finalizado” */
+.modal ul li.finalizado strong {
+  color: #3f51b5;
+}

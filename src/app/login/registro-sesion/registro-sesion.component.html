@@ -1,0 +1,130 @@
+<!-- registro-sesion.component.html -->
+<div class="contenedor-registro">
+  <form (ngSubmit)="onSubmit(registroForm)" #registroForm="ngForm" class="tarjeta-registro">
+    <h2 class="titulo">Crea tu cuenta</h2>
+
+    <div class="campo-formulario">
+      <label for="nombre">Nombre completo</label>
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        ngModel
+        #nombreInput="ngModel"
+        required
+        placeholder="Ingresa tu nombre"
+      />
+      <small class="mensaje-error" *ngIf="nombreInput.invalid && nombreInput.touched">
+        El nombre es obligatorio.
+      </small>
+    </div>
+
+    <div class="campo-formulario">
+      <label for="email">Correo electrónico</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        ngModel
+        #emailInput="ngModel"
+        required
+        email
+        placeholder="Ingresa tu correo"
+      />
+      <small class="mensaje-error" *ngIf="emailInput.invalid && emailInput.touched">
+        <span *ngIf="emailInput.errors?.['required']">El correo es obligatorio.</span>
+        <span *ngIf="emailInput.errors?.['email']">Debe ser un correo válido.</span>
+      </small>
+    </div>
+
+    <div class="campo-formulario password-group">
+      <label for="password">Contraseña</label>
+      <div class="input-toggle">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          name="password"
+          ngModel
+          required
+          minlength="6"
+          #passInput="ngModel"
+          placeholder="********"
+        />
+        <small class="mensaje-error" *ngIf="passInput.invalid && passInput.touched">
+          <span *ngIf="passInput.errors?.['required']">La contraseña es obligatoria.</span>
+          <span *ngIf="passInput.errors?.['minlength']">Mínimo 6 caracteres.</span>
+        </small>
+        <button
+          type="button"
+          class="toggle-btn"
+          (click)="toggleShowPassword()"
+          tabindex="-1"
+          aria-label="Mostrar u ocultar contraseña"
+        >
+          <img
+            *ngIf="!showPassword"
+            src="./assets/icons/hide.png"
+            alt="Mostrar contraseña"
+            title="Mostrar contraseña"
+          />
+          <img
+            *ngIf="showPassword"
+            src="./assets/icons/view.png"
+            alt="Ocultar contraseña"
+            title="Ocultar contraseña"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="campo-formulario password-group">
+      <label for="confirmPassword">Confirma tu contraseña</label>
+      <div class="input-toggle">
+        <input
+          [type]="showPasswordConfirm ? 'text' : 'password'"
+          id="confirmPassword"
+          name="confirmPassword"
+          ngModel
+          required
+          #confirmInput="ngModel"
+          placeholder="********"
+        />
+        <small class="mensaje-error" *ngIf="confirmInput.invalid && confirmInput.touched">
+          La confirmación es obligatoria.
+        </small>
+        <button
+          type="button"
+          class="toggle-btn"
+          (click)="toggleShowPasswordConfirm()"
+          tabindex="-1"
+          aria-label="Mostrar u ocultar contraseña"
+        >
+          <img
+            *ngIf="!showPasswordConfirm"
+            src="./assets/icons/hide.png"
+            alt="Mostrar contraseña"
+            title="Mostrar contraseña"
+          />
+          <img
+            *ngIf="showPasswordConfirm"
+            src="./assets/icons/view.png"
+            alt="Ocultar contraseña"
+            title="Ocultar contraseña"
+          />
+        </button>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-enviar" [disabled]="registroForm.invalid">
+      Registrarme
+    </button>
+
+    <div class="registro">
+      ¿Ya tienes cuenta? <a [routerLink]="['/login/inicio-sesion']">Inicia sesión aquí</a>
+    </div>
+
+    <div class="mensaje-flotante" *ngIf="mensaje">
+      {{ mensaje }}
+    </div>
+  </form>
+</div>

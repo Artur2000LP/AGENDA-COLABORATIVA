@@ -1,0 +1,894 @@
+.contenedor-plataforma {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.zona-trabajo {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.nenubtn {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 101;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #061634;
+  transition: left 0.3s ease;
+}
+
+.nenubtn.abierto {
+  left: 200px;
+  color: #ffffff;
+}
+
+
+.grupo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.grupo-item>.item {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  padding: 4px 0;
+}
+
+.grupo-item>.item mat-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.grupo-item>.item .texto-item {
+  display: block;
+  flex: 1 1 auto;
+  max-width: 100px;
+  font-size: 14px;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  line-height: 1.2;
+}
+
+/* Botones a la derecha */
+.grupo-item>.item .toggle-miembros,
+.grupo-item>.item .btn-quitar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.barra-lateral.colapsada {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+}
+
+
+
+
+.barra-lateral.colapsada .texto-item {
+  display: none;
+}
+.barra-lateral.abierta {
+  left: 0;
+}
+
+
+.usuario {
+  gap: .5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  margin-bottom: .6rem;
+  height: 40px;
+  background-color: #3a3a4d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nombre {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.correo {
+  font-size: 14px;
+  opacity: 0.8;
+  overflow: hidden;
+}
+
+.menu {
+  flex-grow: 1;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin: 4px 0;
+}
+
+.menu .item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.menu .item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.texto-item {
+  white-space: nowrap;
+}
+
+.titulomascrear {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+
+.titulomascrear .grupo-titulo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  padding: 0;
+}
+
+.menu .btnCrearGrupo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.menu .btnCrearGrupo:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.zona-inferior {
+  margin-top: auto;
+  /* padding: 16px 0; */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zona-inferior ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.zona-inferior li {
+  display: flex;
+  justify-content: center;
+}
+
+/* Botones como ítems */
+.zona-inferior .item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 6px;
+}
+
+.zona-inferior .item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.barra-lateral.colapsada .item .texto-item {
+  display: none;
+}
+
+.barra-lateral.colapsada .zona-inferior li {
+  justify-content: center;
+}
+
+.cerrar .item {
+  color: #ff6b6b;
+}
+
+.barra-lateral.colapsada .texto-item,
+.barra-lateral.colapsada .grupo-titulo span,
+.barra-lateral.colapsada .info {
+  display: none;
+}
+
+.barra-lateral.colapsada li {
+  position: relative;
+}
+
+.barra-lateral.colapsada .item:hover .texto-item::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-right-color: rgba(0, 0, 0, 0.8);
+}
+
+
+main.contenido {
+  flex-grow: 1;
+  background: #f5f5f5;
+  overflow-y: auto;
+}
+
+/* MODAL BASE */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 500px;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 25px;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* HEADER */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.modal-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+}
+
+/* BODY */
+.modal-body {
+  margin-top: 15px;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.input-text {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 4px;
+  box-sizing: border-box;
+}
+
+/* LISTAS DE USUARIOS */
+.resultados-busqueda,
+.miembros-seleccionados {
+  margin-top: 16px;
+}
+
+.resultados-busqueda ul,
+.miembros-seleccionados ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resultados-busqueda li,
+.miembros-seleccionados li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+/* BOTONES PEQUEÑOS */
+.btn-mini {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-mini:hover {
+  background-color: #125fa3;
+}
+
+.btn-mini.remove {
+  background-color: #e53935;
+}
+
+.btn-mini.remove:hover {
+  background-color: #b71c1c;
+}
+
+/* FOOTER */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancelar {
+  background-color: #eee;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333;
+}
+
+.btn-crear {
+  background-color: #43a047;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-cancelar:hover {
+  background-color: #ddd;
+}
+
+.btn-crear:hover {
+  background-color: #388e3c;
+}
+
+
+.btn-quitar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: crimson;
+  margin-left: 8px;
+}
+
+
+/* Fondo modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 95%;
+  max-width: 480px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  padding: 20px 24px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Cabecera */
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.modal-header h2 {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin: 0;
+  color: #2e2e2e;
+}
+
+.grupo-nombre {
+  font-weight: bold;
+  color: #4CAF50;
+  margin-left: 4px;
+}
+
+/* Botón de cerrar */
+.close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+  color: #888;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+/* Input y etiquetas */
+.input-label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.input-label mat-icon {
+  margin-right: 6px;
+  color: #4CAF50;
+}
+
+.input-text {
+  flex: 1;
+  padding: 8px 12px;
+  margin-left: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Resultados búsqueda */
+.resultados-busqueda,
+.miembros-seleccionados {
+  margin-top: 16px;
+}
+
+.resultados-busqueda ul,
+.miembros-seleccionados ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+.resultados-busqueda li,
+.miembros-seleccionados li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f4f4;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.resultados-busqueda strong {
+  color: #333;
+}
+
+/* Botones mini */
+.btn-mini {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-mini:hover {
+  background-color: #388E3C;
+}
+
+.btn-mini.remove {
+  background-color: #f44336;
+}
+
+.btn-mini.remove:hover {
+  background-color: #d32f2f;
+}
+
+/* Pie del modal */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  gap: 12px;
+}
+
+/* Botones grandes */
+.btn-cancelar,
+.btn-crear {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-cancelar {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.btn-cancelar:hover {
+  background-color: #c7c7c7;
+}
+
+.btn-crear {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-crear:hover {
+  background-color: #43a047;
+}
+
+.btn-agregar {
+  text-decoration: none;
+  background-color: transparent;
+  color: inherit;
+}
+
+/* =========================
+   LISTA DE GRUPOS
+   ========================= */
+
+.barra-lateral.colapsada .toggle-miembros,
+.barra-lateral.colapsada .btn-quitar {
+  display: none;
+}
+
+/* =========================
+   FILA DE CADA GRUPO
+   ========================= */
+
+.grupo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grupo-item>.item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =========================
+   SUBLISTA DE MIEMBROS
+   ========================= */
+
+.sublista-miembros {
+  margin: 4px 0 4px 32px;
+  padding: 0;
+  list-style: none;
+  max-height: 150px;
+  overflow-y: auto;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.miembro-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.miembro-item .miembro-nombre {
+  flex: 1;
+  cursor: pointer;
+}
+
+.miembro-item .miembro-email {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* =========================
+   SCROLLBARS (opcionales)
+   ========================= */
+
+/* Webkit: barra más estrecha y discreta */
+.menu .listaGrupos::-webkit-scrollbar,
+.sublista-miembros::-webkit-scrollbar {
+  width: 6px;
+}
+
+.menu .listaGrupos::-webkit-scrollbar-thumb,
+.sublista-miembros::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+
+
+.barra-lateral .top-menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+
+/* ==========================
+   MENU: contenedor interior con scroll solo en la lista
+   ========================== */
+.barra-lateral .menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ==========================
+   LISTA DE GRUPOS: scroll independiente
+   ========================== */
+.barra-lateral .listaGrupos {
+  flex: 1;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0 4px;
+}
+
+
+.barra-lateral .listaGrupos::-webkit-scrollbar {
+  width: 6px;
+}
+
+.barra-lateral .listaGrupos::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+
+.barra-lateral {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #1e1e2f; */
+  /* background-color: #111f1ddc; */
+  background: linear-gradient(135deg, #0b1a38 0%, #0d2239 100%);
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+  z-index: 100;
+  transition: left 0.3s ease, width 0.3s ease;
+}
+
+
+/* 2) top-menu rellena todo menos la zona inferior */
+.barra-lateral .top-menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 3) Dentro de top-menu, menu (Mi recordatorio + grupos) flex-column */
+.barra-lateral .top-menu .menu {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 4) Sección de grupos, estira bajo “Mi recordatorio” */
+.barra-lateral .top-menu .menu .grupos {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 5) La UL de grupos gana el scroll interno */
+.barra-lateral .top-menu .menu .grupos .listaGrupos {
+  flex: 1;
+  margin: 0;
+  padding: 0 4px;
+  overflow-y: auto;
+}
+
+.burbuja-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  touch-action: none; /* importa para arrastre táctil */
+  cursor: grab;
+  margin:  0 20px 20px 0; 
+}
+.burbuja-btn:active {
+  cursor: grabbing;
+}
+
+/* ========================= */
+/* BURBUJA: forzar origen en 0,0 */
+/* ========================= */
+.nenubtn.burbuja-btn {
+  top: 0 ;
+  left: 0 ;
+}
+
+.item.activo {
+  background-color: #ffffff0d; /* mismo color del hover o uno atractivo */
+}
+
+/* Contenedor del avatar y la flecha */
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Tu avatar circular */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+  /* Ajusta estos colores según tu tema */
+  background-color: #ececec;
+  color: #333;
+}
+
+/* Base de la flecha */
+.flecha-guia {
+  position: absolute;
+  top: 90%;            /* justo debajo del avatar */
+  left: 35%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  opacity: 0.8;
+  animation: moverFlecha 1.8s ease-in-out infinite;
+}
+
+/* Flecha apuntando a la derecha (cuando colapsada = false) */
+.flecha-guia.derecha {
+  border-top:    6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left:   10px solid #fff;
+}
+
+/* Flecha apuntando a la izquierda (cuando colapsada = true) */
+.flecha-guia.izquierda {
+  border-top:     6px solid transparent;
+  border-bottom:  6px solid transparent;
+  border-right:   10px solid #fff;
+}
+
+/* Animación que empuja la flecha */
+@keyframes moverFlecha {
+  0%   { transform: translate(-50%, 0) translateX(0);   opacity: 0.8; }
+  50%  { transform: translate(-50%, 0) translateX(10px);  opacity: 0.4; }
+  100% { transform: translate(-50%, 0) translateX(0);   opacity: 0.8; }
+}
+
+
+/* RESPONSIVE: MÓVIL */
+@media screen and (max-width: 768px) {
+  .nenubtn {
+    display: block;
+  }
+  .flecha-guia{
+    display: none;
+  }
+  .barra-lateral {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -250px;
+  }
+
+  .barra-lateral.abierta {
+    left: 0;
+  }
+
+  main.contenido {
+    margin-left: 0;
+  }
+
+}

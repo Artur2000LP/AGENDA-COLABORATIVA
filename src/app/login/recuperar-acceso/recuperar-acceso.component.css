@@ -1,0 +1,167 @@
+
+/* recuperar-acceso.component.css */
+.contenedor-recuperar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0b1a38 0%, #0d2239 100%);
+  padding: 1rem;
+}
+
+.tarjeta-recuperar {
+  width: 90%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.tarjeta-recuperar {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: transform 0.3s ease, border-color 0.3s;
+}
+
+.tarjeta-recuperar:hover {
+  transform: translateY(-6px);
+  border-color: #6366f1;
+}
+
+.titulo {
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #e0e7ff;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: relative;
+}
+
+.campo-formulario label {
+  font-size: 0.85rem;
+  color: #a5b4fc;
+}
+
+.campo-formulario input {
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e7ff;
+  font-size: 0.95rem;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.campo-formulario input::placeholder {
+  color: #a5b4fc;
+}
+
+.campo-formulario input:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.mensaje-error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 2px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.btn-enviar {
+  background: #6366f1;
+  color: #fff;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-enviar:hover:not(:disabled) {
+  background: #4f46e5;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-enviar:disabled {
+  background: rgba(255, 255, 255, 0.15);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.registro {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #a5b4fc;
+}
+
+.registro a {
+  color: #6366f1;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.registro a:hover {
+  text-decoration: underline;
+}
+
+.mensaje-flotante {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 12px;
+  z-index: 10;
+  pointer-events: none;
+  animation: desvanecer 8s ease-out forwards;
+
+   /* NUEVAS LÍNEAS PARA UNA SÓLA LÍNEA: */
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  
+}
+
+@keyframes desvanecer {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .tarjeta-recuperar {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+  .titulo {
+    font-size: 1.4rem;
+  }
+  .campo-formulario input,
+  .btn-enviar {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+}  
