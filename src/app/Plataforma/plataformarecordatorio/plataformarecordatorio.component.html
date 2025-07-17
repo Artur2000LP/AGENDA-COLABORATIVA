@@ -108,6 +108,13 @@
                         (click)="quitarMiembro(g.id, miembroUid)" title="Quitar miembro">
                         <mat-icon>remove</mat-icon>
                       </button>
+
+                      <!-- 2) Botón para que cada MIEMBRO (no creador) se salga a sí mismo -->
+                      <button *ngIf="miembroUid === usuarioActualUid && usuarioActualUid !== g.ownerUid"
+                        class="btn-salir" (click)="quitarMiembro(g.id, miembroUid)" title="Salir del grupo">
+                        <mat-icon>logout</mat-icon>
+                      </button>
+
                     </li>
 
                   </ng-container>

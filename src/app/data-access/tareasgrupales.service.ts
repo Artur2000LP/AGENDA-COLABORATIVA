@@ -24,7 +24,8 @@ export interface Tarea {
   horaFin: string;
   estado: string;
   timestamp?: any;
-  assignedToName: string;
+  // assignedToName: string;
+  assignedToNames: string[]; 
 }
 
 export type creartarea = Omit<Tarea, 'id' | 'timestamp'>;

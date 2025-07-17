@@ -196,14 +196,43 @@ export default class PlataformarecordatorioComponent implements OnInit {
     this.resultadosBusqueda = [];
   }
 
-  quitarMiembro(grupoId: string, uid: string) {
-    const confirmacion = confirm('¿Estás seguro de quitar a este miembro del grupo?');
-    if (!confirmacion) return;
+  // quitarMiembro(grupoId: string, uid: string) {
+  //   const confirmacion = confirm('¿Estás seguro de quitar a este miembro del grupo?');
+  //   if (!confirmacion) return;
 
+  //   this.gruposService.removeMiembro(grupoId, uid)
+  //     .then(() => {
+  //       delete this.usuariosCache[uid];
+
+  //       this.toggleMiembros(grupoId);
+  //       setTimeout(() => this.toggleMiembros(grupoId), 200);
+  //     })
+  //     .catch(err => {
+  //       console.error('Error al quitar miembro:', err);
+  //     });
+  // }
+
+  quitarMiembro(grupoId: string, uid: string) {
+    // Determina si es yo mismo
+    const esMiMismo = uid === this.usuarioActualUid;
+
+    // Elige el mensaje adecuado
+    const mensaje = esMiMismo
+      ? '¿Estás seguro de que deseas salir del grupo?'
+      : '¿Estás seguro de expulsar a este miembro del grupo?';
+
+    // Muestra la confirmación
+    if (!confirm(mensaje)) return;
+
+    // Llama al servicio
     this.gruposService.removeMiembro(grupoId, uid)
       .then(() => {
+        // Si salgo yo mismo, redirige a personal
+        if (esMiMismo) {
+          this.router.navigate(['']);
+        }
+        // Limpia caché y refresca la lista
         delete this.usuariosCache[uid];
-
         this.toggleMiembros(grupoId);
         setTimeout(() => this.toggleMiembros(grupoId), 200);
       })
@@ -211,6 +240,7 @@ export default class PlataformarecordatorioComponent implements OnInit {
         console.error('Error al quitar miembro:', err);
       });
   }
+
 
 
   removerMiembro(usuario: any) {

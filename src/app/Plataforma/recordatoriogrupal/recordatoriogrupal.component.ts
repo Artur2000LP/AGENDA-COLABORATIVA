@@ -97,7 +97,7 @@ export default class RecordatoriogrupalComponent {
     horaInicio: '',
     horaFin: '', // ✅ Añadido
     estado: 'inicio',
-    assignedToName: ''
+    assignedToNames: []
   };
 
   tareaEditandoId: string | null = null;
@@ -179,7 +179,7 @@ export default class RecordatoriogrupalComponent {
 
   //   });
   // }
-  
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const grupoId = params.get('grupoId');
@@ -218,17 +218,28 @@ export default class RecordatoriogrupalComponent {
     this.dialog.open(this.dialogAsignarTpl, { width: '280px' });
   }
 
+
   // seleccionarResponsable(nombre: string) {
   //   this.nuevaTarea.assignedToName = nombre;
   //   this.dialog.closeAll();
   // }
 
+  // seleccionarResponsable(nombre: string) {
+  //   this.responsableSeleccionado = nombre;
+  //   this.nuevaTarea.assignedToName = nombre; // <-- Esto guarda el nombre en el objeto que irá a Firebase
+  //   this.dialog.closeAll();
+  // }
+
   seleccionarResponsable(nombre: string) {
-    this.responsableSeleccionado = nombre;
-    this.nuevaTarea.assignedToName = nombre; // <-- Esto guarda el nombre en el objeto que irá a Firebase
+    const arr = this.nuevaTarea.assignedToNames;
+    const idx = arr.indexOf(nombre);
+    if (idx === -1) {
+      arr.push(nombre);        // si no estaba, lo añade
+    } else {
+      arr.splice(idx, 1);      // si ya estaba, lo quita
+    }
     this.dialog.closeAll();
   }
-
 
   private reaplicarEventosEnCeldas() {
     const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -482,7 +493,8 @@ export default class RecordatoriogrupalComponent {
         horaInicio: horaFormateada,
         horaFin: horaFinFormateada,
         estado: this.nuevaTarea.estado,
-        assignedToName: this.nuevaTarea.assignedToName || ''
+        // assignedToName: this.nuevaTarea.assignedToName || ''
+        assignedToNames: [...this.nuevaTarea.assignedToNames]
       };
 
       this.loading.set(true);
@@ -513,7 +525,7 @@ export default class RecordatoriogrupalComponent {
       horaInicio: '',
       horaFin: '',
       estado: 'inicio',
-      assignedToName: ''
+      assignedToNames: []
     };
     this.tareaEditandoId = null;
   }
@@ -567,7 +579,8 @@ export default class RecordatoriogrupalComponent {
       horaInicio: hora24,
       horaFin: horaFin24,
       estado: tarea.estado,
-      assignedToName: tarea.assignedToName || ''
+      // assignedToName: tarea.assignedToName || ''
+      assignedToNames: [...(tarea.assignedToNames || [])]
     };
 
     this.tareaEditandoId = tarea.id;

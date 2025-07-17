@@ -91,9 +91,13 @@
                         }">
                     Estado: {{ tarea.estado }}
                   </div>
-                  <div class="tarea-responsable" *ngIf="tarea.assignedToName">
+                  <!-- <div class="tarea-responsable" *ngIf="tarea.assignedToName">
                     Responsable: {{ tarea.assignedToName }}
+                  </div> -->
+                  <div class="tarea-responsable" *ngIf="tarea.assignedToNames.length">
+                    Responsables: {{ tarea.assignedToNames.join(', ') }}
                   </div>
+
 
                 </div>
 
@@ -166,9 +170,13 @@
                     }">
                     Estado: {{ tarea.estado }}
                   </div>
-                  <div class="tarea-responsable" *ngIf="tarea.assignedToName">
+                  <!-- <div class="tarea-responsable" *ngIf="tarea.assignedToName">
                     Responsable: {{ tarea.assignedToName }}
+                  </div> -->
+                  <div class="tarea-responsable" *ngIf="tarea.assignedToNames.length">
+                    Responsables: {{ tarea.assignedToNames.join(', ') }}
                   </div>
+
                 </div>
               </div>
               <div class="tarea-buttons">
@@ -221,9 +229,13 @@
                     }">
                     Estado: {{tarea.estado}} ✔
                   </div>
-                  <div class="tarea-responsable" *ngIf="tarea.assignedToName">
+                  <!-- <div class="tarea-responsable" *ngIf="tarea.assignedToName">
                     Responsable: {{ tarea.assignedToName }}
+                  </div> -->
+                  <div class="tarea-responsable" *ngIf="tarea.assignedToNames.length">
+                    Responsables: {{ tarea.assignedToNames.join(', ') }}
                   </div>
+
                 </div>
               </div>
               <div class="tarea-buttons">
@@ -283,9 +295,11 @@
                           'badge-finalizado': tareaSeleccionada.estado.trim().toLowerCase() === 'finalizado'
                         }">Estado: {{ tareaSeleccionada.estado }}</span>
 
-            <div class="responsable-asignado" *ngIf="tareaSeleccionada.assignedToName">
+            <div class="responsable-asignado"
+              *ngIf="tareaSeleccionada.assignedToNames && tareaSeleccionada.assignedToNames.length">
               <mat-icon class="icono-responsable">person</mat-icon>
-              <span class="nombre-responsable">Responsable: {{ tareaSeleccionada.assignedToName }}</span>
+              <span class="nombre-responsable">Responsables: {{ tareaSeleccionada.assignedToNames.join(', ') }}
+              </span>
             </div>
 
           </div>
@@ -393,7 +407,8 @@
                 <mat-icon>person_add</mat-icon>
               </a>
               <p class="resonaselecionada">
-                {{ nuevaTarea.assignedToName ? nuevaTarea.assignedToName : 'Asignar Responsable' }}
+                <!-- {{ nuevaTarea.assignedToName ? nuevaTarea.assignedToName : 'Asignar Responsable' }} -->
+                {{ nuevaTarea.assignedToNames.length ? nuevaTarea.assignedToNames.join(', ') : 'Asignar Responsable' }}
               </p>
             </div>
           </div>
@@ -465,7 +480,7 @@
           </div>
         </ng-template> -->
 
-        <ng-template #dialogAsignar>
+        <!-- <ng-template #dialogAsignar>
           <div class="dialog-asignar-container">
             <h3 class="titulo-dialog">Selecciona responsable</h3>
             <div class="contenedor-lista-responsables">
@@ -478,7 +493,24 @@
               </ul>
             </div>
           </div>
+        </ng-template> -->
+        <ng-template #dialogAsignar>
+          <div class="dialog-asignar-container">
+            <h3 class="titulo-dialog">Selecciona responsable</h3>
+            <div class="contenedor-lista-responsables">
+              <ul class="lista-responsables">
+                <li *ngFor="let m of miembrosDelGrupo">
+                  <button class="btn-responsable" (click)="seleccionarResponsable(m.nombre)"
+                    [ngClass]="{ 'seleccionado': nuevaTarea.assignedToNames.includes(m.nombre) }">
+                    {{ m.nombre }}
+                    <span *ngIf="nuevaTarea.assignedToNames.includes(m.nombre)">✅</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
         </ng-template>
+
 
 
 
