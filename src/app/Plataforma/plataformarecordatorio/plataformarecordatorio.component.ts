@@ -141,27 +141,6 @@ export default class PlataformarecordatorioComponent implements OnInit {
   }
 
 
-  // buscarUsuarios() {
-  //   const termino = this.terminoBusqueda.trim();
-  //   if (!termino) {
-  //     this.resultadosBusqueda = [];
-  //     return;
-  //   }
-
-  //   this.usuario$.pipe(take(1)).subscribe(usuarioActual => {
-  //     if (!usuarioActual || !usuarioActual.uid) return;
-
-  //     this.gruposService.buscarUsuariosPorNombreOCorreo(termino)
-  //       .pipe(take(1))
-  //       .subscribe(usuarios => {
-  //         this.resultadosBusqueda = usuarios.filter(u =>
-  //           u.uid !== usuarioActual.uid &&
-  //           !this.miembrosSeleccionados.some(sel => sel.uid === u.uid)
-  //         );
-  //       });
-  //   });
-  // }
-
   buscarUsuarios() {
     const termino = this.terminoBusqueda.trim();
     if (!termino) {
@@ -195,22 +174,6 @@ export default class PlataformarecordatorioComponent implements OnInit {
     this.terminoBusqueda = '';
     this.resultadosBusqueda = [];
   }
-
-  // quitarMiembro(grupoId: string, uid: string) {
-  //   const confirmacion = confirm('¿Estás seguro de quitar a este miembro del grupo?');
-  //   if (!confirmacion) return;
-
-  //   this.gruposService.removeMiembro(grupoId, uid)
-  //     .then(() => {
-  //       delete this.usuariosCache[uid];
-
-  //       this.toggleMiembros(grupoId);
-  //       setTimeout(() => this.toggleMiembros(grupoId), 200);
-  //     })
-  //     .catch(err => {
-  //       console.error('Error al quitar miembro:', err);
-  //     });
-  // }
 
   quitarMiembro(grupoId: string, uid: string) {
     // Determina si es yo mismo

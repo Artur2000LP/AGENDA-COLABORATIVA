@@ -587,15 +587,6 @@ export default class RecordatoriogrupalComponent {
     this.mostrarFormulario = true;
   }
 
-
-  // async eliminarTarea(id: string) {
-  //   try {
-  //     await this._tareasService.deleteTarea(id);
-  //   } catch (error) {
-  //     alert("No se pudo eliminar la tarea");
-  //     console.error(error);
-  //   }
-  // }
   async eliminarTarea(id: string) {
     // 1) Obtener la tarea para ver su estado
     const tarea = this.tareas().find(t => t.id === id);

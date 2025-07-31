@@ -7,7 +7,7 @@ import { perteneceAlGrupoGuard } from '../guard/pertenece-al-grupo.guard';
 export default [
   {
     path: '',
-    canActivate: [authGuard], // 👈 Protege toda esta ruta y sus hijos
+    canActivate: [authGuard], //  Protege toda esta ruta y sus hijos
     loadComponent: () =>
       import('./plataformarecordatorio/plataformarecordatorio.component').then(m => m.default),
     children: [
@@ -22,7 +22,7 @@ export default [
           import('./recordatoriogrupal/recordatoriogrupal.component').then(m => m.default),
       },
       // {
-      //   path: 'grupal/:grupoId', // ✅ ruta dinámica protegida también
+      //   path: 'grupal/:grupoId', //  ruta dinámica protegida también
       //   loadComponent: () =>
       //     import('./recordatoriogrupal/recordatoriogrupal.component'),
       // },
@@ -30,7 +30,7 @@ export default [
         path: 'grupal/:grupoId',
         loadComponent: () =>
           import('./recordatoriogrupal/recordatoriogrupal.component'),
-          // canActivate: [authGuard, perteneceAlGrupoGuard], // 👈 Agregado
+          // canActivate: [authGuard, perteneceAlGrupoGuard], //  Agregado
       },
       {
         path: 'ayuda',

@@ -1,23 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
 
-/* html, body { height: 100%; } */
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/* 1) Reset box-sizing para todo el proyecto */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* 2) Eliminar márgenes/paddings por defecto y controlar overflow */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden; /* evita scroll horizontal no deseado */
+  overflow-x: hidden; 
 }
 
-/* 3) Imágenes y medios responsivos */
 img, video {
   max-width: 100%;
   height: auto;

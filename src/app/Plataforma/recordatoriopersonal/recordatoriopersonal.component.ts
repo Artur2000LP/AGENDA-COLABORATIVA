@@ -1,15 +1,4 @@
-// import { Component } from '@angular/core';
 
-// @Component({
-//   selector: 'app-recordatoriopersonal',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './recordatoriopersonal.component.html',
-//   styleUrl: './recordatoriopersonal.component.css'
-// })
-// export default class RecordatoriopersonalComponent {
-
-// }
 
 import { Component, inject, signal, computed, ViewEncapsulation, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
@@ -101,12 +90,6 @@ export default class RecordatoriopersonalComponent {
   tooltipTareasEl?: HTMLDivElement; // 👈 ✅ AGREGA ESTA LÍNEA
 
   constructor(private chatService: ChatService) {
-    // effect(() => {
-    //   this.tareas().forEach(t => {
-    //     console.log(`ID: ${t.id}, Título: ${t.titulo}`);
-    //   });
-    // });
-    // Efecto reactivo para recalcular sets e inyectar CSS
     effect(() => {
       const tareas = this.tareas();
       this.pintarFechaDeTareasPersonal(tareas);
