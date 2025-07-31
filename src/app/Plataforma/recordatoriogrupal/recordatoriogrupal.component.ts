@@ -409,13 +409,13 @@ export default class RecordatoriogrupalComponent {
   }
 
   async crearTarea() {
-    if (!this.nuevaTarea.horaInicio &&
-      !this.nuevaTarea.horaFin &&
-      !this.nuevaTarea.fecha &&
-      !this.nuevaTarea.fechaFin) {
-      alert("Debes ingresar al menos una hora: inicio o fin.");
-      return;
-    }
+    // if (!this.nuevaTarea.horaInicio &&
+    //   !this.nuevaTarea.horaFin &&
+    //   !this.nuevaTarea.fecha &&
+    //   !this.nuevaTarea.fechaFin) {
+    //   alert("Debes ingresar al menos una hora: inicio o fin.");
+    //   return;
+    // }
 
     if (!this.nuevaTarea.titulo) {
       alert("El título debe ser ingresado.");
@@ -588,7 +588,24 @@ export default class RecordatoriogrupalComponent {
   }
 
 
+  // async eliminarTarea(id: string) {
+  //   try {
+  //     await this._tareasService.deleteTarea(id);
+  //   } catch (error) {
+  //     alert("No se pudo eliminar la tarea");
+  //     console.error(error);
+  //   }
+  // }
   async eliminarTarea(id: string) {
+    // 1) Obtener la tarea para ver su estado
+    const tarea = this.tareas().find(t => t.id === id);
+    // 2) Si es estado "inicio", pedir confirmación
+    if (tarea?.estado === 'inicio') {
+      if (!confirm('¿Deseas eliminar esta tarea?')) {
+        return;
+      }
+    }
+
     try {
       await this._tareasService.deleteTarea(id);
     } catch (error) {
@@ -596,6 +613,7 @@ export default class RecordatoriogrupalComponent {
       console.error(error);
     }
   }
+
 
   tareaProxima = computed((): Tarea | null => {
     const now = Date.now();

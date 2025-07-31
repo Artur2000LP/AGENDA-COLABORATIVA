@@ -302,13 +302,6 @@ export default class RecordatoriopersonalComponent {
   }
 
   async crearTarea() {
-    if (!this.nuevaTarea.horaInicio &&
-      !this.nuevaTarea.horaFin &&
-      !this.nuevaTarea.fecha &&
-      !this.nuevaTarea.fechaFin) {
-      alert("Debes ingresar al menos una hora: inicio o fin.");
-      return;
-    }
 
     if (!this.nuevaTarea.titulo) {
       alert("El título debe ser ingresado.");

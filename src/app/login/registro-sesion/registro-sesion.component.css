@@ -196,3 +196,37 @@
     padding: 0.7rem;
   }
 }
+
+@media (max-width: 600px) {
+  .tarjeta-registro {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .titulo {
+    font-size: 1.4rem;
+  }
+
+  .campo-formulario input,
+  .btn-enviar {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  /* 🔽 NUEVO: Ajusta el tamaño del botón del ojo y su posición */
+  .toggle-btn {
+    width: 24px;
+    height: 24px;
+    right: 0.3rem;
+  }
+
+  .toggle-btn img {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* 🔽 NUEVO: agrega más padding a los inputs para que el ojo no se superponga */
+  .campo-formulario.password-group input {
+    padding-right: 2.5rem;
+  }
+}

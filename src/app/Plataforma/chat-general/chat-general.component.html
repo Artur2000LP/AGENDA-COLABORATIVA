@@ -53,10 +53,20 @@
 </div> -->
 
 <!-- Zona de entrada -->
-<div class="chat-input">
-  <textarea [(ngModel)]="mensajeTextoValue" placeholder="Escribe tu mensaje..." class="chat-textarea"
+<!-- <div class="chat-input">
+  <textarea  #mensajeInput [(ngModel)]="mensajeTextoValue" placeholder="Escribe tu mensaje..." class="chat-textarea"
     (keyup.enter)="enviarMensaje()" rows="1"></textarea>
 
   <button type="button" (click)="enviarMensaje()"><mat-icon>send</mat-icon>
+  </button>
+</div> -->
+
+<div class="chat-input">
+  <textarea #mensajeInput [(ngModel)]="mensajeTextoValue" placeholder="Escribe tu mensaje..." class="chat-textarea"
+    (click)="onTextareaClick()" (touchstart)="onTextareaClick()" (keyup.enter)="enviarMensaje()" rows="1">
+  </textarea>
+
+  <button type="button" (click)="enviarMensaje()">
+    <mat-icon>send</mat-icon>
   </button>
 </div>

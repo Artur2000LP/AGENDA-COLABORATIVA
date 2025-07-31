@@ -2,7 +2,7 @@
 
 import { Routes } from '@angular/router';
 import { authGuard } from '../guard/auth.guard';
-import { perteneceAlGrupoGuard } from '../guard/pertenece-al-grupo.guard'; 
+import { perteneceAlGrupoGuard } from '../guard/pertenece-al-grupo.guard';
 
 export default [
   {
@@ -30,7 +30,7 @@ export default [
         path: 'grupal/:grupoId',
         loadComponent: () =>
           import('./recordatoriogrupal/recordatoriogrupal.component'),
-        // canActivate: [authGuard, perteneceAlGrupoGuard], // 👈 Agregado
+          // canActivate: [authGuard, perteneceAlGrupoGuard], // 👈 Agregado
       },
       {
         path: 'ayuda',
