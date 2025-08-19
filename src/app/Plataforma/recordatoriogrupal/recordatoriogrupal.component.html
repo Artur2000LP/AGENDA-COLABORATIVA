@@ -48,6 +48,17 @@
           <ul cdkDropList #inicioList="cdkDropList" [cdkDropListData]="tareasInicio()"
             [cdkDropListConnectedTo]="[procesoList, finalizadoList]" (cdkDropListDropped)="drop($event, 'inicio')"
             [cdkDropListDisabled]="isMobile()">
+            <li class="empty-state" *ngIf="tareasInicio().length === 0" style="
+                list-style: none;
+                padding: 16px;
+                margin: 8px;
+                border: 1px dashed #93c5fd;
+                border-radius: 12px;
+                background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(59,130,246,0.02));
+                color: #2563eb;
+                display: flex; align-items: center; gap: 10px; justify-content: center; text-align: center;">
+              <span>Sin tareas en Inicio. Crea una nueva para comenzar.</span>
+            </li>
             <li *ngFor="let tarea of tareasInicio()" cdkDrag [cdkDragData]="tarea" class="tarea-card"
               (click)="seleccionarTarea(tarea)" [cdkDragDisabled]="isMobile()">
               <!-- contenido de la tarea... -->
@@ -132,6 +143,17 @@
           <ul cdkDropList #procesoList="cdkDropList" [cdkDropListData]="tareasProceso()"
             [cdkDropListConnectedTo]="[inicioList, finalizadoList]" (cdkDropListDropped)="drop($event, 'proceso')"
             [cdkDropListDisabled]="isMobile()">
+            <li class="empty-state" *ngIf="tareasProceso().length === 0" style="
+                list-style: none;
+                padding: 16px;
+                margin: 8px;
+                border: 1px dashed #fbbf24;
+                border-radius: 12px;
+                background: linear-gradient(135deg, rgba(245,158,11,0.06), rgba(245,158,11,0.02));
+                color: #b45309;
+                display: flex; align-items: center; gap: 10px; justify-content: center; text-align: center;">
+              <span>No hay tareas en Proceso. Arrastra una o edítala para avanzar.</span>
+            </li>
             <li *ngFor="let tarea of tareasProceso()" cdkDrag [cdkDragData]="tarea" class="tarea-card"
               (click)="seleccionarTarea(tarea)">
               <!-- contenido de la tarea... -->
@@ -203,6 +225,17 @@
           <ul cdkDropList #finalizadoList="cdkDropList" [cdkDropListData]="tareasFinalizado()"
             [cdkDropListConnectedTo]="[inicioList, procesoList]" (cdkDropListDropped)="drop($event, 'finalizado')"
             [cdkDropListDisabled]="isMobile()">
+            <li class="empty-state" *ngIf="tareasFinalizado().length === 0" style="
+                list-style: none;
+                padding: 16px;
+                margin: 8px;
+                border: 1px dashed #34d399;
+                border-radius: 12px;
+                background: linear-gradient(135deg, rgba(16,185,129,0.06), rgba(16,185,129,0.02));
+                color: #059669;
+                display: flex; align-items: center; gap: 10px; justify-content: center; text-align: center;">
+              <span>Aún no hay Finalizados. ¡Pronto verás tus logros aquí!</span>
+            </li>
             <li *ngFor="let tarea of tareasFinalizado()" cdkDrag [cdkDragData]="tarea" class="tarea-card"
               (click)="seleccionarTarea(tarea)">
               <!-- contenido de la tarea... -->

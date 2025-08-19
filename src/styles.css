@@ -1,6 +1,6 @@
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+/* 
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -17,4 +17,4 @@ img, video {
   max-width: 100%;
   height: auto;
   display: block;
-}
+} */

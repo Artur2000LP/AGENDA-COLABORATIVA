@@ -7,7 +7,30 @@
     background: linear-gradient(135deg, #0b1a38 0%, #0d2239 100%);
     padding: 1rem;
     width: 100%;
- }
+    position: relative; /* necesario para el pseudo-elemento de fondo */
+   
+}
+
+
+/* Fondo con imagen ligeramente ofuscada detrás del contenido */
+.contenedor-login::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/loginimg/FonfoLogin.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px) brightness(0.55);
+  transform: scale(1.03); /* evita bordes visibles al aplicar blur */
+  z-index: 0;
+}
+
+/* Asegura que el formulario y demás contenido queden sobre el fondo */
+.contenedor-login > * {
+  position: relative;
+  z-index: 1;
+}
 
 
 .tarjeta-login {

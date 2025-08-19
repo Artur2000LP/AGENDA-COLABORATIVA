@@ -3,9 +3,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Altura flexible para móviles (fallback + dinámico) */
   min-height: 100vh;
   background: linear-gradient(135deg, #0b1a38 0%, #0d2239 100%);
   padding: 1rem;
+  position: relative; /* para posicionar el fondo */
+  
+}
+
+.contenedor-registro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/loginimg/FonfoLogin.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px) brightness(0.55);
+  transform: scale(1.03);
+  z-index: 0;
+}
+
+/* Asegura que el formulario quede por encima del fondo */
+.contenedor-registro > * {
+  position: relative;
+  z-index: 1;
 }
 
 .tarjeta-registro {

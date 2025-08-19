@@ -1,3 +1,25 @@
+/* Fondo y layout base */
+.contenedor-recuperar {
+  position: relative; /* para ubicar el pseudo-elemento */
+}
+
+.contenedor-recuperar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/loginimg/FonfoLogin.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px) brightness(0.55);
+  transform: scale(1.03);
+  z-index: 0;
+}
+
+.contenedor-recuperar > * {
+  position: relative;
+  z-index: 1;
+}
 
 /* recuperar-acceso.component.css */
 .contenedor-recuperar {
